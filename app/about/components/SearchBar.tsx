@@ -1,10 +1,9 @@
 "use client";
-import { fetcher } from "../../../utils/fetcher";
+
+import { searchMovies } from "@/utils/tmdb";
 import useSWR from "swr";
 import { ChangeEvent, useState } from "react";
-import { Loader } from "lucide-react";
-import { useRouter } from "next/router";
-import { ArrowRight } from "lucide-react";
+import { Loader, ArrowRight } from "lucide-react";
 
 type Movie = {
   id: number;
@@ -15,17 +14,17 @@ type Movie = {
 };
 
 export const SearchBar = () => {
-  // const { push } = useRouter();
   const [searchValue, setSearchValue] = useState("");
+
+  const shouldFetch = searchValue.trim().length >= 2;
+
   const { data, isLoading } = useSWR(
-    searchValue
-      ? `${process.env.NEXT_PUBLIC_BASE_URL}/search/movie?query=${searchValue}&language=en-US&page=1`
-      : null,
-    fetcher
+    shouldFetch ? ["search-movie", searchValue] : null,
+    () => searchMovies(searchValue)
   );
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
-    // push(`/?query=${event.target.value}`);
   };
 
   return (
@@ -34,7 +33,7 @@ export const SearchBar = () => {
         value={searchValue}
         onChange={handleChange}
         placeholder="Search..."
-        className="w-94.75 h-9 border rounded-lg bg-[#FFFFFF] border-[#E4E4E7] text-[14px] pl-4"
+        className="w-full h-9 border rounded-lg bg-white border-[#E4E4E7] text-[14px] pl-4"
       />
 
       {isLoading && (
@@ -43,12 +42,20 @@ export const SearchBar = () => {
         </div>
       )}
 
-      {searchValue && data?.results?.length > 0 && (
-        <div className="absolute w-[577px] bg-white rounded-lg shadow-lg z-50 max-h-[729px] overflow-y-auto">
+      {/* 🔍 No result */}
+      {shouldFetch && !isLoading && data?.results?.length === 0 && (
+        <div className="absolute w-full bg-white p-4 text-sm text-gray-500 shadow-lg z-50">
+          No results found
+        </div>
+      )}
+
+      {/* ✅ Result list */}
+      {shouldFetch && data?.results?.length > 0 && (
+        <div className="absolute w-full bg-white rounded-lg shadow-lg z-50 max-h-[500px] overflow-y-auto">
           {data.results.map((movie: Movie) => (
             <div
               key={movie.id}
-              className="flex items-center gap-3 p-4 hover:bg-gray-100"
+              className="flex items-center gap-3 p-4 hover:bg-gray-100 cursor-pointer"
             >
               {movie.poster_path ? (
                 <img
@@ -60,20 +67,19 @@ export const SearchBar = () => {
                 <div className="w-[67px] h-[100px] bg-gray-300 rounded" />
               )}
 
-              <div>
-                <div className="pb-4">
-                  <p className="text-[16px]">{movie.title}</p>
-                  <p className="text-[12px] text-[#09090B] flex items-center gap-2">
-                    ⭐ {movie.vote_average}
-                  </p>
-                </div>
-                <div className="flex items-center">
+              <div className="flex-1">
+                <p className="text-[16px] font-medium">{movie.title}</p>
+                <p className="text-[12px] text-[#09090B] flex items-center gap-2">
+                  ⭐ {movie.vote_average}
+                </p>
+
+                <div className="flex justify-between items-center mt-2">
                   <p className="text-[14px] text-gray-500">
                     {movie.release_date}
                   </p>
-                  <button className="text-[14px] flex items-center gap-2 pl-72">
+                  <span className="text-[14px] flex items-center gap-1">
                     See more <ArrowRight width={16} height={16} />
-                  </button>
+                  </span>
                 </div>
               </div>
             </div>

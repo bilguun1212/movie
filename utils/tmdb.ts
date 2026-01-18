@@ -5,12 +5,25 @@ export async function getGenres() {
     `https://api.themoviedb.org/3/genre/movie/list?language=en`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
       },
     }
   );
 
   return res.json();
+}
+
+export async function searchMovies(query: string) {
+  const res = await fetch(
+    `${TMDB_BASE_URL}/search/movie?query=${query}&language=en-US&page=1`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
+      },
+    }
+  );
+
+  return res.json(); // ⬅️ заавал results агуулсан object
 }
 
 export async function discoverMovies(genreId?: number, page = 1) {
@@ -20,7 +33,7 @@ export async function discoverMovies(genreId?: number, page = 1) {
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
     },
     cache: "force-cache",
   });
@@ -35,7 +48,7 @@ export async function movieApi(category: string, genreId?: number) {
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
     },
     cache: "force-cache",
   });
@@ -46,7 +59,7 @@ export async function movieApi(category: string, genreId?: number) {
 export async function getMovieDetail(movieId: string) {
   const res = await fetch(`${TMDB_BASE_URL}/movie/${movieId}?language=en-US`, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
     },
     cache: "force-cache",
   });
@@ -58,7 +71,7 @@ export async function getMovieCredits(movieId: string) {
     `${TMDB_BASE_URL}/movie/${movieId}/credits?language=en-US`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
       },
       cache: "force-cache",
     }
@@ -71,24 +84,24 @@ export async function getSimilarMovies(movieId: string) {
     `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
       },
       cache: "force-cache",
     }
   );
 
-  return res.json(); // object with results[]
+  return res.json(); 
 }
 export async function getMovieVideos(movieId: string) {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
       },
       cache: "force-cache",
     }
   );
 
-  return res.json(); // object with results[]
+  return res.json();
 }

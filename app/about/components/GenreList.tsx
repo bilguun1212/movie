@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import { getGenres } from "@/utils/tmdb";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
+
+type Genre = {
+  id: number;
+  name: string;
+};
 
 export default function GenreList() {
-  const [genres, setGenres] = useState<{ id: number; name: string }[]>([]);
-  const searchParams = useSearchParams();
-  const selectedGenre = searchParams.get("genre");
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const params = useParams();
+  const activeId = params?.id; // /genre/[id]
 
   useEffect(() => {
     getGenres().then((data) => setGenres(data.genres));
@@ -17,12 +22,12 @@ export default function GenreList() {
   return (
     <div className="flex flex-wrap gap-2 mb-6">
       {genres.map((genre) => {
-        const isActive = selectedGenre === genre.id.toString();
+        const isActive = String(genre.id) === activeId;
 
         return (
           <Link
             key={genre.id}
-            href={`/?genre=${genre.id}`}
+            href={`/genre/${genre.id}`}
             className={`px-3 py-1 rounded transition
               ${
                 isActive

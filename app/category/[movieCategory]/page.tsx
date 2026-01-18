@@ -41,7 +41,7 @@ export default async function Page({
                 >
                   <img
                     className="object-cover object-center rounded-t-lg  md:min-h-85 min-h-60"
-                    src={`https://image.tmdb.org/t/p/w500${films.backdrop_path}`}
+                    src={`https://image.tmdb.org/t/p/original${films.backdrop_path}`}
                   />
                   <div className="bg-gray-200 h-23.75 p-2 rounded-b-lg ">
                     <div className="flex">
