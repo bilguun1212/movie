@@ -29,7 +29,7 @@ export const CarouselPlugin = ({ results }: Results) => {
     const data = await getMovieVideos(movie.id);
 
     const trailer = data?.results?.find(
-      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+      (v: any) => v.type === "Trailer" && v.site === "YouTube",
     );
 
     if (!trailer?.key) return;
@@ -68,9 +68,8 @@ export const CarouselPlugin = ({ results }: Results) => {
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
 
               {/* HERO CONTENT */}
-              <div className="absolute inset-0 z-20 flex items-center">
+              <div className="absolute inset-0 z-20 flex items-center pl-8">
                 <div className="max-w-7xl px-6 md:px-12 flex flex-col gap-4">
-
                   {/* Now Playing */}
                   <p className="text-sm text-gray-300 tracking-wide">
                     Now Playing

@@ -27,7 +27,7 @@ const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
 const movieApi = async (
   category: string,
-  genreId?: number
+  genreId?: number,
 ): Promise<Results> => {
   const url = genreId
     ? `${TMDB_BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc`
@@ -35,7 +35,7 @@ const movieApi = async (
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
       "Content-Type": "application/json",
     },
   });
@@ -66,9 +66,8 @@ export const MovieCard = ({ genreId }: { genreId?: number }) => {
 
   return (
     <div className="flex justify-center flex-col items-center w-full">
-             <CarouselPlugin results={popularMovie} />
+      <CarouselPlugin results={popularMovie} />
       <div className="p-5 md:px-20 mb-12.5 gap-8 flex justify-center items-center flex-col w-full">
-
         {/* Upcoming Section */}
         <Upcoming
           title="Upcoming"

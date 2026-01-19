@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
-
+import GenreList from "@/app/about/components/GenreList";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { discoverMovies, getGenres } from "@/utils/tmdb";
@@ -49,65 +49,62 @@ export default function GenrePage() {
   return (
     <div>
       <Header />
-       <h2 className="text-2xl font-semibold mb-1 pl-23">Search filter</h2>
-    <div className="container mx-auto py-8 grid grid-cols-12 gap-6">
-      <aside className="col-span-3">
-        <h2 className="text-lg font-semibold mb-1">Genres</h2>
-        <p className="text-sm text-gray-500 mb-4">
-          See lists of movies by genre
-        </p>
-        {/* <GenreList /> */}
-      </aside>
-
-      {/* ===== RIGHT – Movies ===== */}
-      <section className="col-span-9">
-        <h1 className="text-2xl font-semibold mb-6">
-          {movies.length} titles in “{genreName}”
-        </h1>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-          {movies.map((movie) => (
-            <div key={movie.id} className="text-center">
-              {movie.poster_path && (
-                <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  width={260}
-                  height={390}
-                  className="rounded-lg shadow-md mx-auto"
-                />
-              )}
-              <p className="mt-2 text-sm font-medium">
-                {movie.title}
-              </p>
-            </div>
-          ))}
+      <h2 className="text-2xl font-semibold mb-1 pl-88">Search filter</h2>
+      <div className="container mx-auto py-8 grid grid-cols-12 gap-6">
+        <div className="col-span-3">
+          <h2 className="text-lg font-semibold mb-1">Genres</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            See lists of movies by genre
+          </p>
+          <div className="">
+            <GenreList />
+          </div>
         </div>
 
-        {/* ===== Pagination ===== */}
-        <div className="flex justify-center items-center gap-2 mt-10 text-sm">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="px-3 py-1 border rounded disabled:opacity-40"
-          >
-            Previous
-          </button>
+        <div className="col-span-9">
+          <h1 className="text-2xl font-semibold mb-6">
+            {movies.length} titles in “{genreName}”
+          </h1>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {movies.map((movie) => (
+              <div key={movie.id} className="text-center">
+                {movie.poster_path && (
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    width={260}
+                    height={390}
+                    className="rounded-lg shadow-md mx-auto"
+                  />
+                )}
+                <p className="mt-2 text-sm font-medium">{movie.title}</p>
+              </div>
+            ))}
+          </div>
+          {/* ===== Pagination =====
+          <div className="flex justify-center items-center gap-2 mt-10 text-sm">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="px-3 py-1 border rounded disabled:opacity-40"
+            >
+              Previous
+            </button>
 
-          <span className="px-3 py-1 border rounded bg-black text-white">
-            {page}
-          </span>
+            <span className="px-3 py-1 border rounded bg-black text-white">
+              {page}
+            </span>
 
-          <button
-            onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-1 border rounded"
-          >
-            Next
-          </button>
+            <button
+              onClick={() => setPage((p) => p + 1)}
+              className="px-3 py-1 border rounded"
+            >
+              Next
+            </button>
+          </div> */}
         </div>
-      </section>
-    </div>
-    <Footer />
+      </div>
+      <Footer />
     </div>
   );
 }

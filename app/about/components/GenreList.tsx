@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getGenres } from "@/utils/tmdb";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 
 type Genre = {
   id: number;
@@ -13,7 +14,7 @@ type Genre = {
 export default function GenreList() {
   const [genres, setGenres] = useState<Genre[]>([]);
   const params = useParams();
-  const activeId = params?.id; // /genre/[id]
+  const activeId = params?.id;
 
   useEffect(() => {
     getGenres().then((data) => setGenres(data.genres));
@@ -28,14 +29,16 @@ export default function GenreList() {
           <Link
             key={genre.id}
             href={`/genre/${genre.id}`}
-            className={`px-3 py-1 rounded transition
+            className={`py-1 px-2 flex items-center justify-center text-base font-semibold transition border border-gray-300 rounded-2xl
               ${
                 isActive
                   ? "bg-white text-black"
-                  : "bg-zinc-800 text-white hover:bg-zinc-700"
+                  : "bg-white hover:text-white hover:bg-black"
               }`}
           >
+            {" "}
             {genre.name}
+            <ChevronRight width={16} height={16} />
           </Link>
         );
       })}
