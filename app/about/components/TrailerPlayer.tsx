@@ -21,7 +21,7 @@ export const TrailerPlayer = ({
 
   return (
     <div
-      className="relative aspect-video w-full rounded-2xl overflow-hidden 
+      className="relative aspect-video w-full h-full rounded-2xl overflow-hidden 
                  cursor-pointer group shadow-lg transition-all duration-500"
     >
       {!play ? (
@@ -35,8 +35,10 @@ export const TrailerPlayer = ({
           />
 
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t 
-                          from-black/70 via-black/30 to-transparent" />
+          <div
+            className="absolute inset-0 bg-gradient-to-t 
+                          from-black/70 via-black/30 to-transparent"
+          />
 
           {/* Center play button */}
           <div

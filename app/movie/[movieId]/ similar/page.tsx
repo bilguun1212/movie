@@ -1,70 +1,70 @@
-import { getSimilarMovies, getMovieDetail } from "@/utils/tmdb";
-import Image from "next/image";
+import { getSimilarMovies } from "@/utils/tmdb";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 
-export default async function SimilarMoviesPage({
+export default async function SimilarPage({
   params,
+  searchParams,
 }: {
   params: { movieId: string };
+  searchParams: { page?: string };
 }) {
+  const page = Number(searchParams.page ?? "1");
   const { movieId } = params;
 
-  if (!movieId || isNaN(Number(movieId))) {
+  const data = await getSimilarMovies(movieId, page);
+
+  // 🔒 SAFETY CHECK (ЭНЭ БАЙХГҮЙ БОЛ 404 ҮҮСДЭГ)
+  if (!data || !Array.isArray(data.results)) {
     notFound();
   }
 
-  const movie = await getMovieDetail(movieId);
-  const similar = await getSimilarMovies(movieId);
-
-  const results = similar?.results ?? [];
+  // 🔥 ЭХНИЙ 10
+  const movies = data.results.slice(0, 10);
 
   return (
-    <div className="flex flex-col items-center">
-      <Header />
+    <div className="max-w-[1200px] mx-auto py-10">
+      <h1 className="text-2xl font-bold mb-6">More like this</h1>
 
-      <div className="w-[1028px] py-12 flex flex-col gap-8">
-        {/* Title */}
-        <div>
-          <h1 className="text-3xl font-bold">
-            More like {movie.title}
-          </h1>
-          <p className="text-gray-500 mt-1">
-            Similar movies you might enjoy
-          </p>
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-5 gap-6">
-          {results.map((m: any) => (
-            <Link key={m.id} href={`/movie/${m.id}`}>
-              <div className="group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition">
-                <div className="relative w-full h-[280px]">
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
-                    alt={m.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-
-                <div className="p-3">
-                  <p className="text-sm font-semibold truncate">
-                    {m.title}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    ⭐ {m.vote_average.toFixed(1)} / 10
-                  </p>
-                </div>
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+        {movies.map((m: any) => (
+          <Link key={m.id} href={`/movie/${m.id}`}>
+            <div className="rounded-lg shadow hover:scale-105 transition">
+              <Image
+                src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
+                alt={m.title}
+                width={300}
+                height={450}
+                className="rounded-t-lg"
+              />
+              <div className="p-2">
+                <p className="text-sm font-medium truncate">{m.title}</p>
+                <p className="text-xs text-gray-500">⭐ {m.vote_average}/10</p>
               </div>
-            </Link>
-          ))}
-        </div>
+            </div>
+          </Link>
+        ))}
       </div>
 
-      <Footer />
+      {/* PAGINATION */}
+      <div className="flex justify-center gap-4 mt-10">
+        {page > 1 && (
+          <Link
+            href={`/movie/${movieId}/similar?page=${page - 1}`}
+            className="px-4 py-2 border rounded"
+          >
+            Previous
+          </Link>
+        )}
+
+        <Link
+          href={`/movie/${movieId}/similar?page=${page + 1}`}
+          className="px-4 py-2 border rounded"
+        >
+          Next
+        </Link>
+      </div>
     </div>
   );
 }

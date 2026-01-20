@@ -7,6 +7,7 @@ export async function getGenres() {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
       },
+      cache: "force-cache",
     },
   );
 
@@ -20,6 +21,7 @@ export async function searchMovies(query: string) {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
       },
+      cache: "force-cache",
     },
   );
 
@@ -79,9 +81,10 @@ export async function getMovieCredits(movieId: string) {
 
   return res.json();
 }
-export async function getSimilarMovies(movieId: string) {
+
+export async function getMovieVideos(movieId: string) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`,
+    `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
     {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
@@ -92,9 +95,9 @@ export async function getSimilarMovies(movieId: string) {
 
   return res.json();
 }
-export async function getMovieVideos(movieId: string) {
+export async function getSimilarMovies(movieId: string, page = 1) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
+    `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=${page}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,

@@ -18,9 +18,7 @@ export default async function MovieDetailPage({
 }: {
   params: Promise<{ movieId: string }>;
 }) {
-  // ✅ Next.js 15 — params заавал await
   const { movieId } = await params;
-
   if (!movieId || isNaN(Number(movieId))) {
     notFound();
   }
@@ -30,25 +28,27 @@ export default async function MovieDetailPage({
   const similar = await getSimilarMovies(movieId);
   const videos = await getMovieVideos(movieId);
 
-  const genres = movie?.genres ?? [];
+  if (!movie) {
+    notFound();
+  }
+
+  const genres = movie.genres ?? [];
   const crew = credits?.crew ?? [];
   const cast = credits?.cast ?? [];
   const similarResults = similar?.results ?? [];
 
   const directors = crew.filter((c: any) => c.job === "Director");
   const writers = crew.filter((c: any) =>
-    ["Writer", "Screenplay", "Story"].includes(c.job)
+    ["Writer", "Screenplay", "Story"].includes(c.job),
   );
   const stars = cast.slice(0, 5);
 
   const videoResults = videos?.results ?? [];
   const trailer =
     videoResults.find(
-      (v: any) => v.type === "Trailer" && v.site === "YouTube"
+      (v: any) => v.type === "Trailer" && v.site === "YouTube",
     ) ||
-    videoResults.find(
-      (v: any) => v.type === "Teaser" && v.site === "YouTube"
-    );
+    videoResults.find((v: any) => v.type === "Teaser" && v.site === "YouTube");
 
   return (
     <div className="flex flex-col items-center">
@@ -90,9 +90,7 @@ export default async function MovieDetailPage({
           )}
         </div>
 
-        {/* DETAILS */}
         <div className="space-y-4">
-          {/* GENRES */}
           <div className="flex gap-2 flex-wrap">
             {genres.map((g: any) => (
               <Badge
@@ -110,7 +108,7 @@ export default async function MovieDetailPage({
             <h2 className="font-bold">Director</h2>
             <p>{directors.map((d: any) => d.name).join(", ")}</p>
           </div>
-          <hr className="border-gray-300"/>
+          <hr className="border-gray-300" />
 
           <div className="flex gap-20">
             <h2 className="font-bold">Writers</h2>
@@ -121,9 +119,7 @@ export default async function MovieDetailPage({
           <div className="flex gap-20">
             <h2 className="font-bold">Stars</h2>
             <p>
-              {stars
-                .map((s: any) => `${s.name} (${s.character})`)
-                .join(", ")}
+              {stars.map((s: any) => `${s.name} (${s.character})`).join(", ")}
             </p>
           </div>
           <hr className="border-gray-300" />
@@ -133,20 +129,21 @@ export default async function MovieDetailPage({
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold">More like this</h2>
-            <div className="flex items-center gap-1 text-sm">
+
+            {/* ✅ ОДОО ЭНЭ LINK 100% АЖИЛЛАНА */}
+            <Link
+              href={`/movie/${movieId}/similar?page=1`}
+              className="flex items-center gap-1 text-sm"
+            >
               See more <ArrowRight size={16} />
-            </div>
+            </Link>
           </div>
 
           <div className="grid grid-cols-5 gap-6">
             {similarResults.slice(0, 5).map((m: any) => (
-              <Link
-                key={m.id}
-                href={`/movie/${m.id}`}
-                className="shrink-0 "
-              >
+              <Link key={m.id} href={`/movie/${m.id}`}>
                 <div className="rounded-lg shadow-md overflow-hidden">
-                  <div className="relative  h-[260px]">
+                  <div className="relative h-[260px]">
                     <Image
                       src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
                       alt={m.title}
