@@ -1,7 +1,7 @@
 import { Film, Mail, Phone } from "lucide-react";
 export const Footer = () => {
   return (
-    <div className="w-full h-[280px] bg-[#4338CA] pt-11.5 pl-20 pb-11.5 pr-20 justify-between flex ">
+    <div className="w-full h-[280px] bg-[#4338CA] pt-11.5 pl-20 pb-11.5 pr-20 justify-between flex max-sm:hidden">
       <div className="w-[247px] h-[52px] flex gap-1 flex-col ">
         <div className="flex  items-center">
           <Film

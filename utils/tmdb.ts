@@ -25,7 +25,7 @@ export async function searchMovies(query: string) {
     },
   );
 
-  return res.json(); // ⬅️ заавал results агуулсан object
+  return res.json();
 }
 
 export async function discoverMovies(genreId?: number, page = 1) {

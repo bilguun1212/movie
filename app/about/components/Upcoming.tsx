@@ -12,7 +12,7 @@ export const Upcoming = ({
   movieResults: Movie[];
 }) => {
   return (
-    <div className="w-310 flex flex-col gap-8">
+    <div className="w-310 flex flex-col gap-8 max-sm:hidden">
       <div className="flex justify-between items-center animate-fade-up">
         <p className="text-[24px] font-semibold">{title}</p>
 

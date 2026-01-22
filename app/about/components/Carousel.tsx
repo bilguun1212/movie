@@ -46,7 +46,7 @@ export const CarouselPlugin = ({ results }: Results) => {
   return (
     <>
       <Carousel
-        className="w-full"
+        className="w-full max-sm:hidden"
         plugins={[plugin.current]}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
@@ -55,32 +55,26 @@ export const CarouselPlugin = ({ results }: Results) => {
           {results.map((movie) => (
             <CarouselItem
               key={movie.id}
-              className="relative w-full h-[75vh] min-h-[600px]"
+              className="relative w-full h-[75vh] min-h-150"
             >
-              {/* Background image */}
               <img
                 src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                 className="absolute inset-0 w-full h-full object-cover"
                 alt={movie.original_title}
               />
 
-              {/* Dark gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
 
-              {/* HERO CONTENT */}
               <div className="absolute inset-0 z-20 flex items-center pl-8">
                 <div className="max-w-7xl px-6 md:px-12 flex flex-col gap-4">
-                  {/* Now Playing */}
                   <p className="text-sm text-gray-300 tracking-wide">
                     Now Playing
                   </p>
 
-                  {/* Title */}
                   <h1 className="text-white text-4xl md:text-5xl font-bold max-w-xl">
                     {movie.original_title}
                   </h1>
 
-                  {/* Rating */}
                   <div className="flex items-center gap-2">
                     <img src="/Star.png" alt="star" className="w-4 h-4" />
                     <span className="text-white font-semibold">
@@ -89,12 +83,10 @@ export const CarouselPlugin = ({ results }: Results) => {
                     </span>
                   </div>
 
-                  {/* Overview */}
                   <p className="text-gray-200 max-w-lg text-sm leading-relaxed line-clamp-3">
                     {movie.overview}
                   </p>
 
-                  {/* Watch Trailer */}
                   <button
                     onClick={() => handleWatchTrailer(movie)}
                     className="mt-4 w-fit flex items-center gap-2 
@@ -113,7 +105,6 @@ export const CarouselPlugin = ({ results }: Results) => {
         <CarouselNext className="right-6 bg-black/50 text-white hover:bg-black/70" />
       </Carousel>
 
-      {/* === FIGMA STYLE TRAILER MODAL === */}
       {modal && (
         <TrailerModal
           open

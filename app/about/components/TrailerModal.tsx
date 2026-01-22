@@ -21,14 +21,12 @@ export const TrailerModal = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center">
-      {/* backdrop */}
+    <div className="fixed inset-0 z-999 flex items-center justify-center">
       <div
         className="absolute inset-0 bg-black/70 backdrop-blur-md"
         onClick={onClose}
       />
 
-      {/* modal */}
       <div className="relative z-10 w-[90vw] max-w-4xl aspect-video">
         <button
           onClick={onClose}

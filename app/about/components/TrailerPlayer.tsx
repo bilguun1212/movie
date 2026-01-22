@@ -14,7 +14,6 @@ export const TrailerPlayer = ({
 }) => {
   const [play, setPlay] = useState(false);
 
-  // 🔥 trailer солигдох бүрт reset
   useEffect(() => {
     setPlay(false);
   }, [trailerKey]);
@@ -26,7 +25,6 @@ export const TrailerPlayer = ({
     >
       {!play ? (
         <>
-          {/* Backdrop */}
           <img
             src={`https://image.tmdb.org/t/p/original${backdropPath}`}
             alt={title}
@@ -34,13 +32,11 @@ export const TrailerPlayer = ({
                        group-hover:scale-105 transition-transform duration-700"
           />
 
-          {/* Gradient overlay */}
           <div
             className="absolute inset-0 bg-gradient-to-t 
                           from-black/70 via-black/30 to-transparent"
           />
 
-          {/* Center play button */}
           <div
             onClick={() => setPlay(true)}
             className="absolute inset-0 flex items-center justify-center"
@@ -54,7 +50,6 @@ export const TrailerPlayer = ({
             </div>
           </div>
 
-          {/* Bottom title */}
           <div className="absolute bottom-4 left-4 right-4">
             <h3 className="text-white text-lg font-semibold drop-shadow">
               Watch Trailer
@@ -64,7 +59,7 @@ export const TrailerPlayer = ({
         </>
       ) : (
         <iframe
-          key={trailerKey} // 🔥 iframe reset
+          key={trailerKey}
           className="w-full h-full"
           src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1`}
           allow="autoplay; encrypted-media"

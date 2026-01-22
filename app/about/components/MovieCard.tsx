@@ -49,7 +49,6 @@ export const MovieCard = ({ genreId }: { genreId?: number }) => {
   const [popularMovie, setPopularMovie] = useState<Movie[]>([]);
   const [topRatedMovie, setTopRatedMovie] = useState<Movie[]>([]);
 
-  // Fetch movies when genreId changes
   useEffect(() => {
     const fetchData = async () => {
       const upcomingData = await movieApi("upcoming", genreId);

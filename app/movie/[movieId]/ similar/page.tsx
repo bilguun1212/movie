@@ -14,37 +14,44 @@ export default async function SimilarPage({
   const { movieId } = params;
 
   const data = await getSimilarMovies(movieId, page);
+  if (!data) notFound();
 
-  // 🔒 SAFETY CHECK (ЭНЭ БАЙХГҮЙ БОЛ 404 ҮҮСДЭГ)
-  if (!data || !Array.isArray(data.results)) {
-    notFound();
-  }
-
-  // 🔥 ЭХНИЙ 10
-  const movies = data.results.slice(0, 10);
+  const movies = (data.results ?? []).slice(0, 10);
 
   return (
     <div className="max-w-[1200px] mx-auto py-10">
       <h1 className="text-2xl font-bold mb-6">More like this</h1>
 
+      {movies.length === 0 && (
+        <p className="text-gray-500">No similar movies found.</p>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-        {movies.map((m: any) => (
-          <Link key={m.id} href={`/movie/${m.id}`}>
-            <div className="rounded-lg shadow hover:scale-105 transition">
-              <Image
-                src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
-                alt={m.title}
-                width={300}
-                height={450}
-                className="rounded-t-lg"
-              />
-              <div className="p-2">
-                <p className="text-sm font-medium truncate">{m.title}</p>
-                <p className="text-xs text-gray-500">⭐ {m.vote_average}/10</p>
+        {movies.map((m: any) => {
+          const posterUrl = m.poster_path
+            ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+            : "/no-image.png";
+
+          return (
+            <Link key={m.id} href={`/movie/${m.id}`}>
+              <div className="rounded-lg shadow hover:scale-105 transition">
+                <Image
+                  src={posterUrl}
+                  alt={m.title}
+                  width={300}
+                  height={450}
+                  className="rounded-t-lg"
+                />
+                <div className="p-2">
+                  <p className="text-sm font-medium truncate">{m.title}</p>
+                  <p className="text-xs text-gray-500">
+                    ⭐ {m.vote_average?.toFixed(1) ?? "N/A"}/10
+                  </p>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
 
       {/* PAGINATION */}

@@ -3,8 +3,8 @@
 import { searchMovies } from "@/utils/tmdb";
 import useSWR from "swr";
 import { ChangeEvent, useState } from "react";
-import { Loader, ArrowRight } from "lucide-react";
-import Link from "next/link"; // 🔥 НЭМСЭН
+import { Loader, ArrowRight, Search } from "lucide-react";
+import Link from "next/link";
 
 type Movie = {
   id: number;
@@ -29,12 +29,15 @@ export const SearchBar = () => {
   };
 
   return (
-    <div className="relative w-[577px]">
+    <div className="relative ">
+      <div className="flex justify-center items-center md:hidden border w-9 h-9 border border-gray-300 rounded-lg">
+        <Search color="#c4c0c1" />
+      </div>
       <input
         value={searchValue}
         onChange={handleChange}
         placeholder="Search..."
-        className="w-full h-9 border rounded-lg bg-white border-[#E4E4E7] text-[14px] pl-4"
+        className="w-full h-9 border rounded-lg bg-white border-[#E4E4E7] text-[14px] pl-4 max-sm:hidden"
       />
 
       {isLoading && (
@@ -43,32 +46,29 @@ export const SearchBar = () => {
         </div>
       )}
 
-      {/* 🔍 No result */}
       {shouldFetch && !isLoading && data?.results?.length === 0 && (
         <div className="absolute w-full bg-white p-4 text-sm text-gray-500 shadow-lg z-50">
           No results found
         </div>
       )}
 
-      {/* ✅ Result list */}
       {shouldFetch && data?.results?.length > 0 && (
         <div className="absolute w-full bg-white rounded-lg shadow-lg z-50 max-h-[500px] overflow-y-auto">
           {data.results.map((movie: Movie) => (
-            // 🔥 БҮХ RESULT-ИЙГ DETAIL PAGE-РУУ LINK ХИЙСЭН
             <Link
               key={movie.id}
               href={`/movie/${movie.id}`}
-              onClick={() => setSearchValue("")} // 🔥 дархад dropdown хаагдана
+              onClick={() => setSearchValue("")}
             >
               <div className="flex items-center gap-3 p-4 hover:bg-gray-100 cursor-pointer">
                 {movie.poster_path ? (
                   <img
                     src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
                     alt={movie.title}
-                    className="w-[67px] h-[100px] object-cover rounded"
+                    className="w-16.75 h-25 object-cover rounded"
                   />
                 ) : (
-                  <div className="w-[67px] h-[100px] bg-gray-300 rounded" />
+                  <div className="w-16.75 h-25 bg-gray-300 rounded" />
                 )}
 
                 <div className="flex-1">
@@ -83,7 +83,7 @@ export const SearchBar = () => {
                       {movie.release_date}
                     </p>
 
-                    <span className="text-[14px] flex items-center gap-1 text-blue-600">
+                    <span className="text-[13px] flex items-center gap-1 text-black-300">
                       See more <ArrowRight width={16} height={16} />
                     </span>
                   </div>
