@@ -36,7 +36,6 @@ export default function GenreList() {
                   : "bg-white hover:text-white hover:bg-black"
               }`}
           >
-            {" "}
             {genre.name}
             <ChevronRight width={16} height={16} />
           </Link>
