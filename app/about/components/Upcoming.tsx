@@ -1,3 +1,5 @@
+"use client";
+
 import { Movie } from "./MovieCard";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -12,52 +14,53 @@ export const Upcoming = ({
   movieResults: Movie[];
 }) => {
   return (
-    <div className="w-310 flex flex-col gap-8 max-sm:hidden">
-      <div className="flex justify-between items-center animate-fade-up">
-        <p className="text-[24px] font-semibold">{title}</p>
+    <section className="w-full max-w-[1200px] mx-auto px-4 flex flex-col gap-6">
+      <div className="flex justify-between items-center">
+        <p className="text-[20px] md:text-[24px] font-semibold">{title}</p>
 
         <Link href={`/category/${category}`}>
-          <button className="flex gap-2 items-center">
-            See more <ArrowRight width={16} height={16} />
+          <button className="flex gap-1 items-center text-sm opacity-70 hover:opacity-100 transition">
+            See more <ArrowRight width={14} height={14} />
           </button>
         </Link>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-8">
-        {movieResults.slice(0, 10).map((films, index) => (
-          <Link href={`/movie/${films.id}`} key={films.id}>
-            <div
-              style={{ animationDelay: `${index * 80}ms` }}
-              className="
-                rounded-lg overflow-hidden
-                shadow-2xl
-                cursor-pointer
-                animate-fade-up
-                transition-transform transition-shadow duration-300
-                hover:scale-[1.03]
-                hover:shadow-xl
-              "
-            >
-              <img
-                className="object-cover object-center md:min-h-85 min-h-60"
-                src={`https://image.tmdb.org/t/p/original${films.backdrop_path}`}
-                alt={films.original_title}
-              />
+      <div
+        className="
+          grid
+          grid-cols-2
+          md:grid-cols-5
+          gap-4
+          md:gap-6
+        "
+      >
+        {movieResults.slice(0, 10).map((movie) => (
+          <Link key={movie.id} href={`/movie/${movie.id}`}>
+            <div className="rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition">
+              {/* POSTER */}
+              <div className="relative w-full aspect-[2/3]">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.original_title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
 
-              <div className="bg-gray-300 h-23.75 p-2">
-                <div className="flex items-center gap-1">
-                  <p className="text-[12px] md:text-[14px] flex items-center">
-                    <img src="/Star.png" alt="Star" className="w-3 h-3" />
-                    {films.vote_average}
-                  </p>
-                  <p className="opacity-50 text-[12px]">/10</p>
+              <div className="bg-gray-100 p-2">
+                <div className="flex items-center gap-1 mb-0.5">
+                  <img src="/Star.png" alt="star" className="w-3 h-3" />
+                  <span className="text-[11px]">{movie.vote_average}</span>
+                  <span className="opacity-50 text-[11px]">/10</span>
                 </div>
-                <p className="text-sm font-medium">{films.original_title}</p>
+
+                <p className="text-[12px] font-medium truncate">
+                  {movie.original_title}
+                </p>
               </div>
             </div>
           </Link>
         ))}
       </div>
-    </div>
+    </section>
   );
 };

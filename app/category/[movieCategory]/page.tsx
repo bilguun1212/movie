@@ -1,6 +1,4 @@
 import { Results } from "@/app/about/components/MovieCard";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { movieApi } from "@/utils/tmdb";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,53 +19,44 @@ export default async function Page({
       : "Top rated";
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Header />
+    <div className="flex flex-col min-h-screen">
+      <div className="w-full max-w-[390px] mx-auto md:max-w-[1200px]">
+        <div className="flex flex-col gap-8 px-4 py-8">
+          <p className="text-[20px] font-semibold">{title}</p>
 
-      <div className="w-360">
-        <div className="flex flex-col gap-8 px-20 py-13">
-          <p className="text-[24px] font-semibold">{title}</p>
-
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-8">
+          <div
+            className="
+              grid
+              grid-cols-2
+              gap-8
+              md:grid-cols-4
+              lg:grid-cols-5
+            "
+          >
             {movies.results.map((films) => (
-              // 🔥 ЭНД LINK НЭМСЭН
-              <Link
-                key={films.id}
-                href={`/movie/${films.id}`}
-                className="block"
-              >
-                <div
-                  className="
-                    rounded-lg overflow-hidden
-                    shadow-2xl
-                    cursor-pointer
-                    animate-fade-up
-                    transition-transform transition-shadow duration-300
-                    hover:scale-[1.03]
-                    hover:shadow-xl
-                  "
-                >
-                  <img
-                    className="object-cover object-center rounded-t-lg md:min-h-85 min-h-60"
-                    src={`https://image.tmdb.org/t/p/original${films.backdrop_path}`}
-                    alt={films.original_title}
-                  />
+              <Link key={films.id} href={`/movie/${films.id}`}>
+                <div className="rounded-lg overflow-hidden bg-white shadow-md">
+                  <div className="relative w-full aspect-[2/3]">
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${films.poster_path}`}
+                      alt={films.original_title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
 
-                  <div className="bg-gray-200 h-23.75 p-2 rounded-b-lg">
-                    <div className="flex items-center gap-1">
+                  <div className="bg-gray-200 p-2">
+                    <div className="flex items-center gap-1 mb-1">
                       <Image
                         src="/Star.png"
                         alt="star"
-                        width={16}
-                        height={16}
+                        width={12}
+                        height={12}
                       />
-                      <p className="text-[12px] md:text-[14px]">
-                        {films.vote_average}
-                      </p>
-                      <span className="opacity-50 text-[12px]">/10</span>
+                      <span className="text-[11px]">{films.vote_average}</span>
+                      <span className="opacity-50 text-[11px]">/10</span>
                     </div>
 
-                    <p className="text-sm font-medium truncate">
+                    <p className="text-[12px] font-medium truncate">
                       {films.original_title}
                     </p>
                   </div>
@@ -77,8 +66,6 @@ export default async function Page({
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

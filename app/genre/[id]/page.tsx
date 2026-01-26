@@ -49,7 +49,6 @@ export default function GenrePage() {
 
   return (
     <div>
-      <Header />
       <h2 className="text-2xl font-semibold mb-1 pl-88">Search filter</h2>
       <div className="container mx-auto py-8 grid grid-cols-12 gap-6">
         <div className="col-span-3">
@@ -126,7 +125,6 @@ export default function GenrePage() {
           </div> */}
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

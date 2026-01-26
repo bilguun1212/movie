@@ -6,8 +6,6 @@ import {
 } from "@/utils/tmdb";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -19,18 +17,14 @@ export default async function MovieDetailPage({
   params: Promise<{ movieId: string }>;
 }) {
   const { movieId } = await params;
-  if (!movieId || isNaN(Number(movieId))) {
-    notFound();
-  }
+  if (!movieId || isNaN(Number(movieId))) notFound();
 
   const movie = await getMovieDetail(movieId);
   const credits = await getMovieCredits(movieId);
   const similar = await getSimilarMovies(movieId);
   const videos = await getMovieVideos(movieId);
 
-  if (!movie) {
-    notFound();
-  }
+  if (!movie) notFound();
 
   const genres = movie.genres ?? [];
   const crew = credits?.crew ?? [];
@@ -51,86 +45,88 @@ export default async function MovieDetailPage({
     videoResults.find((v: any) => v.type === "Teaser" && v.site === "YouTube");
 
   return (
-    <div className="flex flex-col items-center">
-      <Header />
-
-      <div className="w-[1028px] flex flex-col pt-13 pb-28 gap-8">
+    <div className="flex justify-center px-4">
+      <div className="w-full max-w-[1028px] flex flex-col gap-8 py-10 md:py-16">
         {/* TITLE + RATING */}
-        <div className="flex justify-between items-start">
+        <div className="flex flex-col md:flex-row md:justify-between gap-4">
           <div>
-            <h1 className="text-4xl font-bold">{movie.title}</h1>
-            <p className="text-lg text-gray-400">{movie.release_date}</p>
+            <h1 className="text-2xl md:text-4xl font-bold">{movie.title}</h1>
+            <p className="text-sm md:text-lg text-gray-400">
+              {movie.release_date}
+            </p>
           </div>
 
-          <div className="text-right">
-            <p className="text-sm text-gray-500">Rating</p>
-            <div className="flex items-center gap-1 text-lg font-semibold">
+          <div className="md:text-right">
+            <p className="text-xs text-gray-500">Rating</p>
+            <div className="flex md:justify-end items-center gap-1 text-lg font-semibold">
               ⭐ {movie.vote_average}
               <span className="text-gray-400 font-normal">/10</span>
             </div>
           </div>
         </div>
 
-        {/* POSTER + TRAILER */}
-        <div className="grid grid-cols-[290px_1fr] gap-6">
-          <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            width={290}
-            height={428}
-            className="rounded-xl shadow-lg"
-          />
-
-          {trailer && (
+        {/* 🎬 TRAILER – ДЭЭР НЬ */}
+        {trailer && (
+          <div className="w-full aspect-video rounded-xl overflow-hidden">
             <TrailerPlayer
               trailerKey={trailer.key}
               backdropPath={movie.backdrop_path}
               title={movie.title}
             />
-          )}
-        </div>
+          </div>
+        )}
 
-        <div className="space-y-4">
-          <div className="flex gap-2 flex-wrap">
-            {genres.map((g: any) => (
-              <Badge
-                key={g.id}
-                className="px-3 py-1 rounded-full border bg-white"
-              >
-                {g.name}
-              </Badge>
-            ))}
+        {/* POSTER + INFO */}
+        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-6">
+          {/* POSTER */}
+          <div className="mx-auto md:mx-0">
+            <Image
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              width={280}
+              height={420}
+              className="rounded-xl shadow-lg"
+            />
           </div>
 
-          <p className="text-base text-[#09090B]">{movie.overview}</p>
+          {/* INFO */}
+          <div className="space-y-4">
+            <div className="flex gap-2 flex-wrap">
+              {genres.map((g: any) => (
+                <Badge
+                  key={g.id}
+                  className="px-3 py-1 rounded-full border bg-white"
+                >
+                  {g.name}
+                </Badge>
+              ))}
+            </div>
 
-          <div className="flex gap-20">
-            <h2 className="font-bold">Director</h2>
-            <p>{directors.map((d: any) => d.name).join(", ")}</p>
-          </div>
-          <hr className="border-gray-300" />
-
-          <div className="flex gap-20">
-            <h2 className="font-bold">Writers</h2>
-            <p>{writers.map((w: any) => w.name).join(", ")}</p>
-          </div>
-          <hr className="border-gray-300" />
-
-          <div className="flex gap-20">
-            <h2 className="font-bold">Stars</h2>
-            <p>
-              {stars.map((s: any) => `${s.name} (${s.character})`).join(", ")}
+            <p className="text-sm md:text-base text-[#09090B]">
+              {movie.overview}
             </p>
+
+            <InfoRow title="Director">
+              {directors.map((d: any) => d.name).join(", ")}
+            </InfoRow>
+
+            <InfoRow title="Writers">
+              {writers.map((w: any) => w.name).join(", ")}
+            </InfoRow>
+
+            <InfoRow title="Stars">
+              {stars.map((s: any) => `${s.name} (${s.character})`).join(", ")}
+            </InfoRow>
           </div>
-          <hr className="border-gray-300" />
         </div>
 
         {/* SIMILAR */}
         <div className="flex flex-col gap-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-semibold">More like this</h2>
+            <h2 className="text-xl md:text-2xl font-semibold">
+              More like this
+            </h2>
 
-            {/* ✅ ОДОО ЭНЭ LINK 100% АЖИЛЛАНА */}
             <Link
               href={`/movie/${movieId}/similar?page=1`}
               className="flex items-center gap-1 text-sm"
@@ -139,11 +135,11 @@ export default async function MovieDetailPage({
             </Link>
           </div>
 
-          <div className="grid grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {similarResults.slice(0, 5).map((m: any) => (
               <Link key={m.id} href={`/movie/${m.id}`}>
                 <div className="rounded-lg shadow-md overflow-hidden">
-                  <div className="relative h-[260px]">
+                  <div className="relative aspect-[2/3]">
                     <Image
                       src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
                       alt={m.title}
@@ -163,8 +159,23 @@ export default async function MovieDetailPage({
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
+
+/* 🔹 reusable info row */
+const InfoRow = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => (
+  <>
+    <div className="flex flex-col md:flex-row md:gap-20 gap-1">
+      <h2 className="font-bold min-w-[90px]">{title}</h2>
+      <p className="text-sm md:text-base">{children}</p>
+    </div>
+    <hr className="border-gray-300" />
+  </>
+);
