@@ -1,27 +1,30 @@
 import { Film, Mail, Phone } from "lucide-react";
 export const Footer = () => {
   return (
-    <div className="w-full h-[280px] bg-[#4338CA] pt-11.5 pl-20 pb-11.5 pr-20 justify-between flex max-sm:hidden">
+    <div className="w-full h-full bg-[#4338CA] pt-11.5 pl-20 pb-11.5 pr-20 justify-between flex max-sm:px-4 max-sm:p-4.5 max-sm:gap-7 max-sm:flex-col">
       <div className="w-[247px] h-[52px] flex gap-1 flex-col ">
-        <div className="flex  items-center">
-          <Film
-            color="white"
-            font-weigth=""
-            width={20}
-            height={20}
-            display="flex"
-            justify-content="center"
-            align-items="center"
-          />
-          <div className="text-white text-base font-bold  flex justify-center items-center">
-            Movie Z
+        <div className="flex  flex-col md:flex items-start max-sm:gap-2">
+          <div className="flex items-center gap-1 ">
+            <Film
+              color="white"
+              font-weigth=""
+              width={20}
+              height={20}
+              display="flex"
+              justify-content="center"
+              align-items="center"
+            />
+
+            <div className="text-white text-base font-bold  flex justify-center items-center">
+              MovieZ
+            </div>
+          </div>
+          <div className="flex text-[#fafafa] text-sm font-normal ">
+            © 2024 Movie Z. All Rights Reserved.
           </div>
         </div>
-        <div className="flex text-[#fafafa] text-sm font-normal ">
-          © 2024 Movie Z. All Rights Reserved.
-        </div>
       </div>
-      <div className="flex gap-24">
+      <div className="flex gap-24 ">
         <div className="flex gap-5 flex-col">
           <div className="text-base font-norwal text-[#fafafa]">
             Contact Information
@@ -43,9 +46,9 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex gap-3 flex-col">
+        <div className="flex gap-3 flex-col max-sm:flex-col">
           <div className="text-base font-medium text-[#fafafa]">Follow us</div>
-          <div className="flex text-base font-medium flex-row gap-3 text-[#fafafa]">
+          <div className="flex text-base font-medium flex-row gap-3 text-[#fafafa] max-sm:flex-col">
             <div>Facebook</div>
             <div>Instegram</div>
             <div>Twitter</div>

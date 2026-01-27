@@ -29,16 +29,18 @@ export const SearchBar = () => {
   };
 
   return (
-    <div className="relative ">
-      <div className="flex justify-center items-center md:hidden border w-9 h-9 border border-gray-300 rounded-lg">
-        <Search color="#c4c0c1" />
+    <div>
+      <div className="flex w-full h-9 border rounded-lg bg-white border-[#E4E4E7] p-2 gap-1 max-sm:w-9 ma-sm:h-9 max-sm:justify-center">
+        <div className="flex justify-center items-center  ">
+          <Search color="gray" width={16} height={16} />
+        </div>
+        <input
+          value={searchValue}
+          onChange={handleChange}
+          placeholder="Search..."
+          className="text-[14px] border-0 max-sm:hidden max-sm:text-hidden"
+        />
       </div>
-      <input
-        value={searchValue}
-        onChange={handleChange}
-        placeholder="Search..."
-        className="w-full h-9 border rounded-lg bg-white border-[#E4E4E7] text-[14px] pl-4 max-sm:hidden"
-      />
 
       {isLoading && (
         <div className="absolute right-3 top-2">

@@ -14,7 +14,7 @@ export const Upcoming = ({
   movieResults: Movie[];
 }) => {
   return (
-    <section className="w-full max-w-[1200px] mx-auto px-4 flex flex-col gap-6">
+    <section className="w-full max-w-[1200px] mx-auto  flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <p className="text-[20px] md:text-[24px] font-semibold">{title}</p>
 

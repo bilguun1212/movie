@@ -21,7 +21,7 @@ export default function GenreList() {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-2 mb-6 max-sm:hidden">
+    <div className="flex flex-wrap gap-2 mb-6 ">
       {genres.map((genre) => {
         const isActive = String(genre.id) === activeId;
 
