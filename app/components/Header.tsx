@@ -16,20 +16,18 @@ export const Header = () => {
 
   const toggle = () => setIsOpen(!isOpen);
 
-  // TMDB-ээс genre татах
   useEffect(() => {
     getGenres().then((data) => {
       if (data && Array.isArray(data.genres)) {
         setGenres(data.genres);
       } else {
-        setGenres([]); // хамгаалалт
+        setGenres([]);
       }
     });
   }, []);
 
   return (
     <div className="flex w-full justify-between items-center pt-11.5 px-20 pb-11.5  max-sm:p-4.5">
-      {/* Logo */}
       <div className="flex gap-1 items-center">
         <Film color="#4338CA" />
         <div className="text-[#4338CA] text-base flex font-bold max-sm:p-0 max-sm:flex-row">
@@ -37,8 +35,7 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Genre + Search */}
-      <div className="flex items-start relative">
+      <div className="flex items-start relative gap-2">
         <Button
           className=" bg-white text-black border border-gray-300 max-sm:hidden"
           onClick={toggle}
@@ -47,7 +44,6 @@ export const Header = () => {
           <div className="max-sm:hidden max-sm:rounded-2xl">Genre</div>
         </Button>
 
-        {/* Animated dropdown */}
         <div
           className={`
     absolute top-full left-0 mt-1 w-[577px] bg-white rounded-lg shadow-lg border border-gray-300 z-50 p-5
@@ -79,10 +75,10 @@ export const Header = () => {
           <div>
             <SearchBar />
           </div>
-          <div className="w-9 h-9 border border-gray-300 rounded-lg flex items-center justify-center">
-            <Moon width={16} height={16} />
-          </div>
         </div>
+      </div>
+      <div className="w-9 h-9 border border-gray-300 rounded-lg flex items-center justify-center">
+        <Moon width={16} height={16} />
       </div>
     </div>
   );
