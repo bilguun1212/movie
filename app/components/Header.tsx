@@ -16,7 +16,6 @@ export const Header = () => {
 
   const toggle = () => setIsOpen(!isOpen);
 
-
   useEffect(() => {
     getGenres().then((data) => {
       if (data && Array.isArray(data.genres)) {
