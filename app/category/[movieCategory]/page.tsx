@@ -19,16 +19,16 @@ export default async function Page({
       : "Top rated";
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="w-full max-w-[390px] mx-auto md:max-w-[1200px]">
-        <div className="flex flex-col gap-8 px-4 py-8">
+    <div className="flex flex-col min-h-screen p-4">
+      <div className="w-full max-w-97.5 mx-auto md:max-w-300">
+        <div className="flex flex-col gap-6 ">
           <p className="text-[20px] font-semibold">{title}</p>
 
           <div
             className="
               grid
               grid-cols-2
-              gap-8
+              gap-5
               md:grid-cols-4
               lg:grid-cols-5
             "
@@ -36,7 +36,7 @@ export default async function Page({
             {movies.results.map((films) => (
               <Link key={films.id} href={`/movie/${films.id}`}>
                 <div className="rounded-lg overflow-hidden bg-white shadow-md">
-                  <div className="relative w-full aspect-[2/3]">
+                  <div className="relative w-full aspect-2/3">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${films.poster_path}`}
                       alt={films.original_title}

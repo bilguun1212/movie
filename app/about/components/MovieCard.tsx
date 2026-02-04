@@ -35,7 +35,7 @@ const movieApi = async (
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
       "Content-Type": "application/json",
     },
   });
@@ -67,21 +67,18 @@ export const MovieCard = ({ genreId }: { genreId?: number }) => {
     <div className="flex justify-center flex-col items-center w-full">
       <CarouselPlugin results={popularMovie} />
       <div className="p-5 md:px-20 mb-12.5 gap-8 flex justify-center items-center flex-col w-full">
-        {/* Upcoming Section */}
         <Upcoming
           title="Upcoming"
           movieResults={upcomingMovie}
           category="upcoming"
         />
 
-        {/* Popular Section */}
         <Upcoming
           title="Popular"
           movieResults={popularMovie}
           category="popular"
         />
 
-        {/* TopRated Section */}
         <Upcoming
           title="TopRated"
           movieResults={topRatedMovie}

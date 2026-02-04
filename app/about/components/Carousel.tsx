@@ -51,14 +51,14 @@ export const CarouselPlugin = ({ results }: Results) => {
           {results.map((movie) => (
             <CarouselItem key={movie.id} className="relative w-full">
               {/* DESKTOP HERO */}
-              <div className="relative w-full h-[70vh] min-h-[500px] max-sm:hidden">
+              <div className="relative w-full h-[70vh] min-h-125 max-sm:hidden">
                 <img
                   src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
                   className="absolute inset-0 w-full h-full object-cover"
                   alt={movie.original_title}
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent" />
 
                 <div className="absolute inset-0 flex items-center z-20">
                   <div className="px-12 max-w-xl flex flex-col gap-4 text-white">

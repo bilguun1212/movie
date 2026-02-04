@@ -21,7 +21,7 @@ export const Header = () => {
       if (data && Array.isArray(data.genres)) {
         setGenres(data.genres);
       } else {
-        setGenres([]); 
+        setGenres([]);
       }
     });
   }, []);
@@ -35,7 +35,7 @@ export const Header = () => {
         </div>
       </div>
 
-      <div className="flex items-start relative">
+      <div className="flex items-start relative gap-2">
         <Button
           className=" bg-white text-black border border-gray-300 max-sm:hidden"
           onClick={toggle}
@@ -45,7 +45,7 @@ export const Header = () => {
         </Button>
         <div
           className={`
-    absolute top-full left-0 mt-1 w-[577px] bg-white rounded-lg shadow-lg border border-gray-300 z-50 p-5
+    absolute top-full left-0 mt-1 w-144.25 bg-white rounded-lg shadow-lg border border-gray-300 z-50 p-5
     transform origin-top-left transition-all duration-700 ease-in-out 
     ${isOpen ? "opacity-100 scale-x-100 scale-y-100" : "opacity-0 scale-x-95 scale-y-95 pointer-events-none max-sm:hidden"}
   `}
@@ -70,16 +70,20 @@ export const Header = () => {
             ))}
           </div>
         </div>
-        <div className="flex max-sm:gap-2">
+        <div className="flex max-sm:hidden ">
           <div>
             <SearchBar />
           </div>
-         
         </div>
       </div>
-       <div className="w-9 h-9 border border-gray-300 rounded-lg flex items-center justify-center">
-            <Moon width={16} height={16} />
-          </div>
+      <div className="flex gap-2">
+        <div className="hidden max-sm:flex max-sm:">
+          <SearchBar />
+        </div>
+        <div className="w-9 h-9 border border-gray-300 rounded-lg flex items-center justify-center">
+          <Moon width={16} height={16} />
+        </div>
+      </div>
     </div>
   );
 };

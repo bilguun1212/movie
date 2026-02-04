@@ -1,128 +1,130 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
-import GenreList from "@/app/about/components/GenreList";
-import Image from "next/image";
-import { useParams } from "next/navigation";
 import { discoverMovies, getGenres } from "@/utils/tmdb";
-
-// import { GenreList } from "@/app/about/components/GenreList"
-
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string;
-  vote_average: number;
-};
-
-type Genre = {
-  id: number;
-  name: string;
-};
+import Link from "next/link";
+import { useRouter, useParams } from "next/navigation";
+import { Star, ChevronRight } from "lucide-react";
 
 export default function GenrePage() {
+  const router = useRouter();
   const params = useParams();
-  const genreId = Number(params?.id);
 
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [genreName, setGenreName] = useState("");
-  const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    if (!genreId) return;
-
-    getGenres().then((data) => {
-      const genre = data.genres.find((g: Genre) => g.id === genreId);
-      setGenreName(genre?.name || "");
-    });
-  }, [genreId]);
+  const [movies, setMovies] = useState([]);
+  const [allGenres, setAllGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!genreId) return;
+    getGenres().then((data) => setAllGenres(data.genres || []));
+    if (params.id) {
+      setSelectedGenres(decodeURIComponent(params.id as string).split(","));
+    }
+  }, [params.id]);
 
-    discoverMovies(genreId, page).then((data) => {
-      if (data?.results) setMovies(data.results);
-    });
-  }, [genreId, page]);
+  useEffect(() => {
+    if (selectedGenres.length > 0) {
+      const genreString = selectedGenres.join(",");
+      discoverMovies(genreString as any).then((data) => {
+        setMovies(data.results || []);
+      });
+    }
+  }, [selectedGenres]);
+
+  const toggleGenre = (id: string) => {
+    let newGenres;
+    if (selectedGenres.includes(id)) {
+      newGenres = selectedGenres.filter((g) => g !== id);
+    } else {
+      newGenres = [...selectedGenres, id];
+    }
+
+    if (newGenres.length > 0) {
+      router.push(`/genre/${newGenres.join(",")}`);
+    } else {
+      router.push("/genre/all");
+    }
+  };
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-1 pl-88">Search filter</h2>
-      <div className="container mx-auto py-8 grid grid-cols-12 gap-6">
-        <div className="col-span-3">
-          <h2 className="text-lg font-semibold mb-1">Genres</h2>
-          <p className="text-sm text-gray-500 mb-4">
-            See lists of movies by genre
-          </p>
-          <div className="">
-            <GenreList />
+    <div className="max-w-300 mx-auto px-4 py-10 min-h-screen">
+      <h2 className="text-[24px] font-bold text-black mb-1">Search filter</h2>
+      <div className="flex flex-col md:flex-row gap-10">
+        <div className="w-full md:w-[320px] shrink-0">
+          <div className="mt-8">
+            <h3 className="text-[18px] font-bold text-black mb-4">Genres</h3>
+            <p className="text-gray-500 text-[14px] mb-6 font-medium">
+              See lists of movies by genre
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              {allGenres.map((g: any) => {
+                const isActive = selectedGenres.includes(String(g.id));
+                return (
+                  <button
+                    key={g.id}
+                    onClick={() => toggleGenre(String(g.id))}
+                    className={`
+                      flex items-center gap-1 px-3 py-1 rounded-full border text-[12px] transition-all
+                      ${
+                        isActive
+                          ? "bg-black text-white border-black"
+                          : "bg-white text-black border-[#E4E4E7] hover:border-black"
+                      }
+                    `}
+                  >
+                    <span className="font-semibold">{g.name}</span>
+                    <ChevronRight
+                      size={14}
+                      className={isActive ? "text-white" : "text-gray-400"}
+                    />
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
-
-        <div className="col-span-9">
-          <h1 className="text-2xl font-semibold mb-6">
-            {movies.length} titles in “{genreName}”
-          </h1>
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {movies.map((movie) => (
-              <div
-                key={movie.id}
-                className="group bg-white rounded-xl  overflow-hidden hover:shadow-md transition"
-              >
-                {/* Poster */}
-                {movie.poster_path && (
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    width={300}
-                    height={450}
-                    className="w-full object-cover"
-                  />
-                )}
-
-                {/* Info */}
-                <div className="p-3 bg-gray-300">
-                  {/* ⭐ Rating */}
-                  <div className="flex items-center gap-1 text-sm mb-1">
-                    <span className="text-yellow-500">★</span>
-                    <span className="font-medium">
-                      {movie.vote_average.toFixed(1)}
-                    </span>
-                    <span className="text-gray-400">/10</span>
-                  </div>
-
-                  {/* Title */}
-                  <p className="text-sm font-medium text-gray-900 leading-snug line-clamp-2">
-                    {movie.title}
-                  </p>
-                </div>
-              </div>
-            ))}
+        <div className="hidden md:block w-px bg-[#E4E4E7] self-stretch" />
+        <div className="flex-1">
+          <div className="mb-8">
+            <h1 className="text-[28px] font-bold text-black">
+              {movies.length} titles found
+            </h1>
           </div>
 
-          {/* ===== Pagination =====
-          <div className="flex justify-center items-center gap-2 mt-10 text-sm">
-            <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="px-3 py-1 border rounded disabled:opacity-40"
-            >
-              Previous
-            </button>
-
-            <span className="px-3 py-1 border rounded bg-black text-white">
-              {page}
-            </span>
-
-            <button
-              onClick={() => setPage((p) => p + 1)}
-              className="px-3 py-1 border rounded"
-            >
-              Next
-            </button>
-          </div> */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {movies.map((m: any) => (
+              <Link key={m.id} href={`/movie/${m.id}`} className="group">
+                <div className="bg-[#f4f4f5] rounded-xl overflow-hidden h-full flex flex-col transition-all hover:shadow-lg">
+                  <div className="relative aspect-2/3 w-full">
+                    <img
+                      src={
+                        m.poster_path
+                          ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+                          : "/no-image.png"
+                      }
+                      alt={m.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    />
+                  </div>
+                  <div className="p-3 flex-1">
+                    <div className="flex items-center gap-1 mb-1 text-[14px]">
+                      <Star
+                        size={14}
+                        className="fill-yellow-400 text-yellow-400"
+                      />
+                      <span className="font-bold text-gray-900">
+                        {m.vote_average?.toFixed(1)}
+                      </span>
+                      <span className="text-gray-400 text-[12px]">/10</span>
+                    </div>
+                    <p className="text-[14px] font-bold text-gray-900 line-clamp-1">
+                      {m.title}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

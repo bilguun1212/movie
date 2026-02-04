@@ -19,49 +19,35 @@ export const TrailerPlayer = ({
   }, [trailerKey]);
 
   return (
-    <div
-      className="relative aspect-video w-full h-full rounded-2xl overflow-hidden 
-                 cursor-pointer group shadow-lg transition-all duration-500"
-    >
+    <div className="relative  w-full h-full rounded-2xl  bg-black shadow-lg">
       {!play ? (
-        <>
+        <div onClick={() => setPlay(true)} className="w-full h-full">
           <img
             src={`https://image.tmdb.org/t/p/original${backdropPath}`}
             alt={title}
-            className="w-full h-full object-cover scale-100 
-                       group-hover:scale-105 transition-transform duration-700"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90"
           />
 
-          <div
-            className="absolute inset-0 bg-gradient-to-t 
-                          from-black/70 via-black/30 to-transparent"
-          />
+          <div className="absolute inset-0  from-black/80 via-transparent to-transparent" />
 
-          <div
-            onClick={() => setPlay(true)}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div
-              className="w-16 h-16 rounded-full bg-white/90 backdrop-blur 
-                         flex items-center justify-center
-                         group-hover:scale-110 transition-transform duration-300"
-            >
-              <Play className="text-black ml-0.5" size={28} />
+          <div className="absolute bottom-6 left-8 flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-110">
+              <Play className="text-black ml-0.5" size={16} />
+            </div>
+
+            <div className="flex  gap-2 text-white">
+              <span className="text-[16px] font-bold ">Play trailer</span>
+              <span className="text-[14px] text-white flex items-center">
+                2:35
+              </span>
             </div>
           </div>
-
-          <div className="absolute bottom-4 left-4 right-4">
-            <h3 className="text-white text-lg font-semibold drop-shadow">
-              Watch Trailer
-            </h3>
-            <p className="text-white/70 text-sm truncate">{title}</p>
-          </div>
-        </>
+        </div>
       ) : (
         <iframe
           key={trailerKey}
-          className="w-full h-full"
-          src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1`}
+          className="w-full h-full border-none"
+          src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&rel=0`}
           allow="autoplay; encrypted-media"
           allowFullScreen
         />

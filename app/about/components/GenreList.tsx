@@ -14,6 +14,7 @@ type Genre = {
 export default function GenreList() {
   const [genres, setGenres] = useState<Genre[]>([]);
   const params = useParams();
+
   const activeId = params?.id;
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function GenreList() {
   }, []);
 
   return (
-    <div className="flex flex-wrap gap-2 mb-6 ">
+    <div className="flex flex-wrap gap-x-3 gap-y-2">
       {genres.map((genre) => {
         const isActive = String(genre.id) === activeId;
 
@@ -29,15 +30,21 @@ export default function GenreList() {
           <Link
             key={genre.id}
             href={`/genre/${genre.id}`}
-            className={`py-1 px-2 flex items-center justify-center text-base font-semibold transition border border-gray-300 rounded-2xl
+            className={`
+              flex items-center gap-1 px-3 py-1 rounded-full border text-[12px] transition-all
               ${
                 isActive
-                  ? "bg-white text-black"
-                  : "bg-white hover:text-white hover:bg-black"
-              }`}
+                  ? "bg-black text-white border-black"
+                  : "bg-white text-black border-[#E4E4E7] hover:bg-gray-50 active:scale-95"
+              }
+            `}
           >
-            {genre.name}
-            <ChevronRight width={16} height={16} />
+            <span className="font-medium">{genre.name}</span>
+            <ChevronRight
+              height={14}
+              width={14}
+              className={isActive ? "text-white" : "text-gray-400"}
+            />
           </Link>
         );
       })}
