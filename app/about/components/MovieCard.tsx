@@ -35,7 +35,7 @@ const movieApi = async (
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TDMB_KEY}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
       "Content-Type": "application/json",
     },
   });
