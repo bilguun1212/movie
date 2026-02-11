@@ -138,7 +138,7 @@ export default function GenrePage() {
           </div>
         </div>
       </div>
-      {/* <DynamicPagination /> */}
+      {/* <DynamicPagination totalPage={movies.total_pages} /> */}
     </div>
   );
 }

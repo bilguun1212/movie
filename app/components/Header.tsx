@@ -97,7 +97,7 @@ export const Header = () => {
               className="hidden max-sm:flex w-9 h-9 border border-gray-300 rounded-lg items-center justify-center cursor-pointer"
               onClick={() => setIsSearchOpen(true)}
             >
-              <Search width={1} height={16} />
+              <Search width={16} height={16} />
             </div>
           )}
 

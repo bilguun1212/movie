@@ -47,9 +47,6 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
     <div
       className={`relative w-full ${isMobileOpen ? "max-sm:flex-1" : "max-w-87.5"}`}
     >
-      {/* Desktop-т border үргэлж байна. 
-          Mobile-д зөвхөн хайлт нээлттэй үед border-гүй харагдана.
-      */}
       <div
         className={`flex items-center w-full h-9 bg-white px-3 gap-2 border border-gray-300 rounded-lg
         ${isMobileOpen ? "max-sm:border-none" : ""}`}
@@ -69,7 +66,6 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
           <Loader size={14} className="animate-spin text-gray-400" />
         )}
 
-        {/* Mobile X Button: Зөвхөн mobile хайлт нээлттэй үед харагдана */}
         {isMobileOpen && (
           <button onClick={onClose} className="hidden max-sm:block p-1">
             <X className="text-black" size={14} />
