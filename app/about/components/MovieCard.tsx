@@ -19,7 +19,7 @@ export type Movie = {
 
 export type Results = {
   results: Movie[];
-  total_pages: number;
+  total_pages?: number; 
 };
 
 export type movieCategory = "popular" | "upcoming" | "top_rated";
@@ -56,9 +56,9 @@ export const MovieCard = ({ genreId }: { genreId?: number }) => {
       const popularData = await movieApi("popular", genreId);
       const topRatedData = await movieApi("top_rated", genreId);
 
-      setUpcomingMovie(upcomingData.results);
-      setPopularMovie(popularData.results);
-      setTopRatedMovie(topRatedData.results);
+      setUpcomingMovie(upcomingData.results || []);
+      setPopularMovie(popularData.results || []);
+      setTopRatedMovie(topRatedData.results || []);
     };
 
     fetchData();
@@ -66,7 +66,9 @@ export const MovieCard = ({ genreId }: { genreId?: number }) => {
 
   return (
     <div className="flex justify-center flex-col items-center w-full">
-      <CarouselPlugin results={popularMovie} />
+     
+      <CarouselPlugin results={{ results: popularMovie, total_pages: 1 }} />
+
       <div className="p-5 md:px-20 mb-12.5 gap-8 flex justify-center items-center flex-col w-full">
         <Upcoming
           title="Upcoming"
