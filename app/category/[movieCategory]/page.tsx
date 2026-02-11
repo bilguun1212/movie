@@ -65,7 +65,7 @@ export default async function Page({
               </Link>
             ))}
           </div>
-          <DynamicPagination totalPage={movies.total_pages} />
+          <DynamicPagination totalPage={movies?.total_pages || 1} />
         </div>
       </div>
     </div>
