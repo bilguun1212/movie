@@ -20,7 +20,6 @@ export default async function SearchResultPage(props: {
           Search Results
         </h1>
       </div>
-
       <div className="flex flex-col md:flex-row items-start gap-1">
         <div className="flex gap-6 flex-col">
           <p className="text-[18px] font-semibold text-[#09090B] mt-1">
@@ -73,9 +72,7 @@ export default async function SearchResultPage(props: {
             )}
           </div>
         </div>
-
         <div className="hidden md:block w-px bg-[#E4E4E7] self-stretch mx-12" />
-
         <div className="w-full md:w-87.5 shrink-0 mt-10 md:mt-0">
           <div className="sticky top-10">
             <h2 className="text-[24px] font-bold text-black mb-1 leading-none">
@@ -84,7 +81,6 @@ export default async function SearchResultPage(props: {
             <p className="text-[#71717A] text-[16px] mb-6 font-medium">
               See lists of movies by genre
             </p>
-
             <div className="flex flex-wrap gap-2">
               <GenreList />
             </div>

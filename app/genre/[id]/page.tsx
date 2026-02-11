@@ -5,6 +5,11 @@ import { discoverMovies, getGenres } from "@/utils/tmdb";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import { Star, ChevronRight } from "lucide-react";
+import { DynamicPagination } from "@/app/_components/DynamicPagination";
+
+export type Results = {
+  total_pages: number;
+};
 
 export default function GenrePage() {
   const router = useRouter();
@@ -46,13 +51,19 @@ export default function GenrePage() {
   };
 
   return (
-    <div className="max-w-300 mx-auto px-4 py-10 min-h-screen">
-      <h2 className="text-[24px] font-bold text-black mb-1">Search filter</h2>
+    <div className="max-w-300 mx-auto px-4 py-10 gap-5 min-h-screen">
+      <h2 className="text-[24px] font-bold text-black ">Search filter</h2>
       <div className="flex flex-col md:flex-row gap-10">
         <div className="w-full md:w-[320px] shrink-0">
           <div className="mt-8">
-            <h3 className="text-[18px] font-bold text-black mb-4">Genres</h3>
-            <p className="text-gray-500 text-[14px] mb-6 font-medium">
+            <h3 className="text-[18px] font-bold text-black mb-4 max-sm:hidden">
+              Genres
+            </h3>
+            <h3 className="hidden max-sm:text-[18px] max-sm:font-bold max-sm:text-black max-sm:flex">
+              Search by genre
+            </h3>
+
+            <p className="text-gray-500 text-[14px] mb-6 font-medium max-sm:text-black max-sm:font-normal">
               See lists of movies by genre
             </p>
 
@@ -127,6 +138,7 @@ export default function GenrePage() {
           </div>
         </div>
       </div>
+      {/* <DynamicPagination /> */}
     </div>
   );
 }

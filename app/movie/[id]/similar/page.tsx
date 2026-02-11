@@ -3,11 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, ChevronLeft } from "lucide-react";
 import { notFound } from "next/navigation";
+import { DynamicPagination } from "@/app/_components/DynamicPagination";
 
 export default async function SimilarMoviesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ page?: string }>;
 }) {
   const { id } = await params;
 
@@ -57,6 +60,9 @@ export default async function SimilarMoviesPage({
             </div>
           </Link>
         ))}
+      </div>
+      <div className="flex ">
+        <DynamicPagination totalPage={movie.total_pages} />
       </div>
     </div>
   );

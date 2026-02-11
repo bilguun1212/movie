@@ -45,7 +45,7 @@ export async function discoverMovies(genreId?: number, page = 1) {
 
 export async function movieApi(category: string, genreId?: number) {
   const url = genreId
-    ? `${TMDB_BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc`
+    ? `${TMDB_BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.descz`
     : `${TMDB_BASE_URL}/movie/${category}`;
 
   const res = await fetch(url, {

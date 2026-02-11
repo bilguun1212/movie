@@ -19,6 +19,7 @@ export type Movie = {
 
 export type Results = {
   results: Movie[];
+  total_pages: number;
 };
 
 export type movieCategory = "popular" | "upcoming" | "top_rated";

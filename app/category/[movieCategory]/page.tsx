@@ -1,3 +1,4 @@
+import { DynamicPagination } from "@/app/_components/DynamicPagination";
 import { Results } from "@/app/about/components/MovieCard";
 import { movieApi } from "@/utils/tmdb";
 import Image from "next/image";
@@ -19,7 +20,7 @@ export default async function Page({
       : "Top rated";
 
   return (
-    <div className="flex flex-col min-h-screen p-4">
+    <div className="flex flex-col min-h-screen p-4 gap-5">
       <div className="w-full max-w-97.5 mx-auto md:max-w-300">
         <div className="flex flex-col gap-6 ">
           <p className="text-[20px] font-semibold">{title}</p>
@@ -64,6 +65,7 @@ export default async function Page({
               </Link>
             ))}
           </div>
+          <DynamicPagination totalPage={movies.total_pages} />
         </div>
       </div>
     </div>

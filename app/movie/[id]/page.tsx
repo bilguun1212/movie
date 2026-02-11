@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 import { TrailerPlayer } from "@/app/about/components/TrailerPlayer";
-import { TrailerModal } from "@/app/about/components/TrailerModal";
 
 export default async function MovieDetailPage({
   params,
@@ -44,28 +43,28 @@ export default async function MovieDetailPage({
       {/* 1. Header: Title & Rating */}
       <div className="flex justify-between items-start">
         <div className="space-y-1">
-          <h1 className="text-3xl md:text-4xl font-semibold text-black">
+          <h3 className="text-4xl max-sm:text-2xl font-semibold text-black">
             {movie.title}
-          </h1>
-          <p className="text-gray-600 font-medium">
+          </h3>
+          <p className="text-[09090b] text-lg font-normal">
             {movie.release_date} • {movie.adult ? "R" : "PG"} • {movie.runtime}m
           </p>
         </div>
 
         <div className="flex flex-col items-end">
-          <p className="text-[10px] font-semibold text-gray-400 flex pr-10.5">
+          <p className="text-[10px] font-semibold text-gray-400 flex pr-10.5 max-sm:hidden">
             Rating
           </p>
           <div className="flex items-center gap-1.5">
-            <Star size={24} className="fill-yellow-400 text-yellow-400" />
+            <Star size={22} className="fill-yellow-400 text-yellow-400" />
             <div className="flex flex-col leading-tight">
-              <span className="text-xl font-semibold text-gray-900">
+              <span className="text-lg font-semibold text-gray-900">
                 {movie?.vote_average ? movie.vote_average.toFixed(1) : "0.0"}
-                <span className="text-gray-400  items-center flex-row text-sm font-normal">
+                <span className="text-[#71717a]  items-center flex-row text-base font-normal">
                   /10
                 </span>
               </span>
-              <span className="text-[10px] text-gray-400 font-semibold uppercase">
+              <span className="text-[10px] text-[#71717A] font-semibold uppercase">
                 1.2M
               </span>
             </div>
@@ -127,7 +126,6 @@ export default async function MovieDetailPage({
             </div>
           </div>
 
-          {/* Details Table */}
           <div className="space-y-4 pt-4 ">
             <div className="flex items-start gap-4">
               <span className="text-base font-semibold text-gray-900 w-24 ">

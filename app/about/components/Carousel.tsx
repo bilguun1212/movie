@@ -50,7 +50,6 @@ export const CarouselPlugin = ({ results }: Results) => {
         <CarouselContent>
           {results.map((movie) => (
             <CarouselItem key={movie.id} className="relative w-full">
-              {/* DESKTOP HERO */}
               <div className="relative w-full h-[70vh] min-h-125 max-sm:hidden">
                 <img
                   src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
@@ -61,8 +60,8 @@ export const CarouselPlugin = ({ results }: Results) => {
                 <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent" />
 
                 <div className="absolute inset-0 flex items-center z-20">
-                  <div className="px-12 max-w-xl flex flex-col gap-4 text-white">
-                    <div className="max:sm:flex max-sm:justify-between">
+                  <div className="px-20 max-w-xl flex flex-col gap-4 text-white">
+                    <div className=" flex flex-col max:sm:flex max-sm:justify-between">
                       <p className="text-sm text-gray-300">Now Playing</p>
                       <h1 className="text-5xl font-bold">
                         {movie.original_title}
