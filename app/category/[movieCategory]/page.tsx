@@ -6,12 +6,15 @@ import Link from "next/link";
 
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ movieCategory: string }>;
+  searchParams: Promise<{ page?: string }>;
 }) {
   const { movieCategory } = await params;
-
-  const movies: Results = await movieApi(movieCategory);
+  const { page } = await searchParams;
+  const currentPage = page ? parseInt(page) : 1;
+  const movies: any = await movieApi(movieCategory, currentPage);
 
   const title = movieCategory.includes("popular")
     ? "Popular"
@@ -34,10 +37,10 @@ export default async function Page({
               lg:grid-cols-5
             "
           >
-            {movies.results.map((films) => (
+            {movies?.results?.map((films: any) => (
               <Link key={films.id} href={`/movie/${films.id}`}>
-                <div className="rounded-lg overflow-hidden bg-white shadow-md">
-                  <div className="relative w-full aspect-2/3">
+                <div className="rounded-lg overflow-hidden bg-white shadow-md hover:scale-105 transition-transform duration-200">
+                  <div className="relative w-full aspect-[2/3]">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${films.poster_path}`}
                       alt={films.original_title}
@@ -53,7 +56,9 @@ export default async function Page({
                         width={12}
                         height={12}
                       />
-                      <span className="text-[11px]">{films.vote_average}</span>
+                      <span className="text-[11px]">
+                        {films.vote_average?.toFixed(1)}
+                      </span>
                       <span className="opacity-50 text-[11px]">/10</span>
                     </div>
 
@@ -65,7 +70,12 @@ export default async function Page({
               </Link>
             ))}
           </div>
-          <DynamicPagination totalPage={movies?.total_pages || 1} />
+
+          <DynamicPagination
+            totalPage={
+              movies?.total_pages > 500 ? 500 : movies?.total_pages || 1
+            }
+          />
         </div>
       </div>
     </div>

@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import { SearchBar } from "../about/components/SearchBar";
 import { getGenres } from "@/utils/tmdb";
+import Link from "next/link";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,12 +37,13 @@ export const Header = () => {
   return (
     <div className="flex w-full  justify-center items-center px-20 py-9 max-sm:p-4.5 bg-white">
       <div className="flex justify-between w-7xl">
-        <div
-          className={`flex gap-1 items-center shrink-0 ${isSearchOpen ? "max-sm:hidden" : "flex"}`}
+        <Link
+          href="/"
+          className={`flex gap-1 items-center shrink-0 cursor-pointer ${isSearchOpen ? "max-sm:hidden" : "flex"}`}
         >
           <Film color="#4338CA" />
           <div className="text-[#4338CA] text-base font-bold">MovieZ</div>
-        </div>
+        </Link>
         <div
           className={`flex items-center relative gap-2 ${isSearchOpen ? "max-sm:w-full" : ""}`}
         >

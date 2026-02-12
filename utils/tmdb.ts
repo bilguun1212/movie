@@ -28,25 +28,24 @@ export async function searchMovies(query: string) {
   return res.json();
 }
 
-export async function discoverMovies(genreId?: number, page = 1) {
-  const url = genreId
-    ? `${TMDB_BASE_URL}/discover/movie?language=en&with_genres=${genreId}&page=${page}`
-    : `${TMDB_BASE_URL}/discover/movie?language=en&page=${page}`;
+export async function discoverMovies(genreIds: string, page: number = 1) {
+  const url = `${TMDB_BASE_URL}/discover/movie?with_genres=${genreIds}&page=${page}&sort_by=popularity.desc`;
 
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
     },
-    cache: "force-cache",
   });
-
   return res.json();
 }
-
-export async function movieApi(category: string, genreId?: number) {
+export async function movieApi(
+  category: string,
+  page: number = 1,
+  genreId?: number,
+): Promise<any> {
   const url = genreId
-    ? `${TMDB_BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.descz`
-    : `${TMDB_BASE_URL}/movie/${category}`;
+    ? `${TMDB_BASE_URL}/discover/movie?with_genres=${genreId}&sort_by=popularity.desc&page=${page}`
+    : `${TMDB_BASE_URL}/movie/${category}?page=${page}`;
 
   const res = await fetch(url, {
     headers: {
@@ -95,16 +94,12 @@ export async function getMovieVideos(movieId: string) {
 
   return res.json();
 }
-export async function getSimilarMovies(movieId: string, page = 1) {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=${page}`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
-      },
-      cache: "force-cache",
+export async function getSimilarMovies(id: string, page: number = 1) {
+  const res = await fetch(`${TMDB_BASE_URL}/movie/${id}/similar?page=${page}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_KEY}`,
     },
-  );
-
+    cache: "force-cache",
+  });
   return res.json();
 }
