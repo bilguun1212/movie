@@ -40,7 +40,6 @@ export default async function MovieDetailPage({
 
   return (
     <div className="max-w-300 mx-auto px-4 py-10 space-y-10 font-sans">
-      {/* 1. Header: Title & Rating */}
       <div className="flex justify-between items-start">
         <div className="space-y-1">
           <h3 className="text-4xl max-sm:text-2xl font-semibold text-black">

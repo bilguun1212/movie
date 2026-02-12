@@ -2,6 +2,7 @@ import { searchMovies } from "@/utils/tmdb";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import GenreList from "@/app/about/components/GenreList";
+import { DynamicPagination } from "@/app/_components/DynamicPagination";
 
 export default async function SearchResultPage(props: {
   params: Promise<{ id: string }>;
@@ -68,6 +69,9 @@ export default async function SearchResultPage(props: {
               })}
             </div>
           )}
+          <div>
+            <DynamicPagination totalPage={movieResults.total_pages} />
+          </div>
         </div>
 
         <div className="hidden md:block w-px bg-[#E4E4E7] self-stretch mx-8 lg:mx-12" />
@@ -79,7 +83,7 @@ export default async function SearchResultPage(props: {
           <p className="text-[#71717A] text-[16px] mb-6 font-medium">
             See lists of movies by genre
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex font-semibold flex-wrap gap-2">
             <GenreList />
           </div>
         </div>

@@ -38,7 +38,7 @@ export const DynamicPagination = ({ totalPage }: DynamicPaginationProps) => {
             <PaginationLink
               onClick={handlePageChange(pageNumber)}
               className={
-                pageNumber === currentPage ? "bg-gray-500" : "bg-gray-100"
+                pageNumber === currentPage ? "bg-gray-300" : "bg-gray-100"
               }
             >
               {pageNumber}

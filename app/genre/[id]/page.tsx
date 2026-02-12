@@ -49,13 +49,12 @@ export default function GenrePage() {
       router.push("/genre/all");
     }
   };
-
   return (
-    <div className="max-w-300 mx-auto px-4 py-10 gap-5 min-h-screen">
-      <h2 className="text-[24px] font-bold text-black ">Search filter</h2>
-      <div className="flex flex-col md:flex-row gap-10">
+    <div className="max-w-329 mx-auto px-4 py-10 gap-5 min-h-screen">
+      <h3 className="text-[30px] font-bold text-black ">Search filter</h3>
+      <div className="flex flex-col  py-10 md:flex-row gap-10">
         <div className="w-full md:w-[320px] shrink-0">
-          <div className="mt-8">
+          <div className="mt-2">
             <h3 className="text-[18px] font-bold text-black mb-4 max-sm:hidden">
               Genres
             </h3>
@@ -75,7 +74,7 @@ export default function GenrePage() {
                     key={g.id}
                     onClick={() => toggleGenre(String(g.id))}
                     className={`
-                      flex items-center gap-1 px-3 py-1 rounded-full border text-[12px] transition-all
+                      flex items-center gap-1 px-3 py-1 rounded-full border text-[12px] font-semibold 
                       ${
                         isActive
                           ? "bg-black text-white border-black"
@@ -101,7 +100,6 @@ export default function GenrePage() {
               {movies.length} titles found
             </h1>
           </div>
-
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {movies.map((m: any) => (
               <Link key={m.id} href={`/movie/${m.id}`} className="group">
@@ -118,17 +116,17 @@ export default function GenrePage() {
                     />
                   </div>
                   <div className="p-3 flex-1">
-                    <div className="flex items-center gap-1 mb-1 text-[14px]">
+                    <div className="flex items-center  mb-1 text-[14px]">
                       <Star
                         size={14}
                         className="fill-yellow-400 text-yellow-400"
                       />
-                      <span className="font-bold text-gray-900">
+                      <span className="font-bold ml-1 text-black">
                         {m.vote_average?.toFixed(1)}
                       </span>
-                      <span className="text-gray-400 text-[12px]">/10</span>
+                      <span className="text-gray-500 text-[12px]">/10</span>
                     </div>
-                    <p className="text-[14px] font-bold text-gray-900 line-clamp-1">
+                    <p className="text-[14px] font-normal text-black ">
                       {m.title}
                     </p>
                   </div>
@@ -138,7 +136,7 @@ export default function GenrePage() {
           </div>
         </div>
       </div>
-      {/* <DynamicPagination totalPage={movies.total_pages} /> */}
+      <DynamicPagination totalPage={movie.total_pages} />
     </div>
   );
 }

@@ -102,17 +102,24 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-[14px] font-bold text-gray-900 truncate">
+                  <h4 className="text-sm font-semibold text-[#09090b] ">
                     {movie.title}
                   </h4>
-                  <div className="flex items-center gap-1 mt-0.5">
-                    <span className="text-yellow-500 text-[12px]">★</span>
-                    <span className="text-[14px] font-bold">
+                  <div className="flex items-center  mt-0.5">
+                    <span className="text-yellow-500 text-[16px]">★</span>
+                    <span className="text-[14px] ml-1 font-medium">
                       {movie.vote_average?.toFixed(1)}
                     </span>
+                    <span className="font-normal text-gray-400 text-[12px]">
+                      /10
+                    </span>
+                  </div>
+                  <div className="text-[#09090b] text-[14px] mt-5 font-medium">
+                    {movie.release_date}
                   </div>
                 </div>
-                <div className="flex items-center gap-1 text-[12px] font-medium text-gray-900 shrink-0">
+
+                <div className="flex mt-18 items-center gap-1 text-[12px] font-medium text-gray-900 shrink-0">
                   See more <ArrowRight size={14} />
                 </div>
               </Link>
@@ -120,7 +127,7 @@ export const SearchBar = ({ isMobileOpen, onClose }: SearchBarProps) => {
           </div>
           <button
             onClick={handleSearchRedirect}
-            className="w-full p-4 text-[14px] font-bold text-center hover:bg-gray-50 border-t border-gray-100 transition-all"
+            className="w-full p-4 text-[14px] flex font-medium hover:bg-gray-50 border-t border-gray-100 transition-all"
           >
             See all results for "{searchValue}"
           </button>

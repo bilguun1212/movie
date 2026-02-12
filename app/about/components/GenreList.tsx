@@ -31,7 +31,7 @@ export default function GenreList() {
             key={genre.id}
             href={`/genre/${genre.id}`}
             className={`
-              flex items-center gap-1 px-3 py-1 rounded-full border text-[12px] transition-all
+              flex items-center gap-1 px-3 py-1 rounded-full border font-semibold text-[12px] transition-all
               ${
                 isActive
                   ? "bg-black text-white border-black"
@@ -39,7 +39,7 @@ export default function GenreList() {
               }
             `}
           >
-            <span className="font-medium">{genre.name}</span>
+            <span className="font-semibold">{genre.name}</span>
             <ChevronRight
               height={14}
               width={14}
