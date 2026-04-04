@@ -21,26 +21,54 @@ export default function GenrePage() {
   });
   const [allGenres, setAllGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const currentPage = Number(searchParams.get("page")) || 1;
 
   useEffect(() => {
     getGenres().then((data) => setAllGenres(data.genres || []));
     if (params.id && params.id !== "all") {
-      setSelectedGenres(decodeURIComponent(params.id as string).split(","));
+  
+      const decodedId = decodeURIComponent(params.id as string);
+      const genreIds = decodedId
+        .split(",")
+        .map((id) => id.trim())
+        .filter((id) => id.length > 0);
+      setSelectedGenres(genreIds);
     } else {
       setSelectedGenres([]);
     }
   }, [params.id]);
 
   useEffect(() => {
-    const genreString = selectedGenres.join(",");
-    discoverMovies(genreString, currentPage).then((data) => {
+    if (selectedGenres.length === 0) {
       setMoviesData({
-        results: data.results || [],
-        total_pages: data.total_pages || 1,
+        results: [],
+        total_pages: 1,
       });
-    });
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    const genreString = selectedGenres.join(",");
+    discoverMovies(genreString, currentPage)
+      .then((data) => {
+        setMoviesData({
+          results: data.results || [],
+          total_pages: data.total_pages || 1,
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching movies:", error);
+        setMoviesData({
+          results: [],
+          total_pages: 1,
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [selectedGenres, currentPage]);
 
   const toggleGenre = (id: string) => {
@@ -93,10 +121,27 @@ export default function GenrePage() {
         <div className="flex-1">
           <div className="mb-8">
             <h1 className="text-[28px] font-bold text-black">
-              {moviesData.results.length} titles found
+              {isLoading ? "Loading..." : `${moviesData.results.length} titles found`}
             </h1>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+
+          {selectedGenres.length === 0 ? (
+            <div className="py-12 text-center">
+              <p className="text-gray-500 text-lg">Select genres to see movies</p>
+            </div>
+          ) : isLoading ? (
+            <div className="py-12 text-center">
+              <div className="inline-block">
+                <div className="w-8 h-8 border-4 border-gray-200 border-t-black rounded-full animate-spin"></div>
+              </div>
+            </div>
+          ) : moviesData.results.length === 0 ? (
+            <div className="py-12 text-center">
+              <p className="text-gray-500 text-lg">No movies found for the selected genres</p>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {moviesData.results.map((m: any) => (
               <Link key={m.id} href={`/movie/${m.id}`} className="group">
                 <div className="bg-[#f4f4f5] rounded-xl overflow-hidden h-full flex flex-col transition-all hover:shadow-lg">
@@ -129,14 +174,16 @@ export default function GenrePage() {
                 </div>
               </Link>
             ))}
-          </div>
-          <div className="mt-10">
-            <DynamicPagination
-              totalPage={
-                moviesData.total_pages > 500 ? 500 : moviesData.total_pages
-              }
-            />
-          </div>
+              </div>
+              <div className="mt-10">
+                <DynamicPagination
+                  totalPage={
+                    moviesData.total_pages > 500 ? 500 : moviesData.total_pages
+                  }
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

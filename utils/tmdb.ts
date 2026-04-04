@@ -27,8 +27,10 @@ export async function searchMovies(query: string) {
 }
 
 export async function discoverMovies(genreIds: string, page: number = 1) {
-  const url = `${TMDB_BASE_URL}/discover/movie?with_genres=${genreIds}&page=${page}&sort_by=popularity.desc`;
-  const res = await fetch(url, { headers: getHeaders });
+  // Convert comma-separated IDs to pipe-separated format required by TMDB API
+  const formattedIds = genreIds.split(",").filter(Boolean).join("|");
+  const url = `${TMDB_BASE_URL}/discover/movie?with_genres=${formattedIds}&page=${page}&sort_by=popularity.desc`;
+  const res = await fetch(url, { headers: getHeaders, cache: "no-store" });
   return res.json();
 }
 
